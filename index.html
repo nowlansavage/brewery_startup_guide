@@ -19,10 +19,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-md-3">
         <div class="well">
+          <h4>How Crowded is the Craft Beer Market?</h4>
           <h5>State:</h5>
-          <select id="selDatasetMap" onchange="optionChanged(this.value)"></select>
+          <select id="selDatasetMap" onchange="optionChangedMap(this.value)"></select>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -31,10 +32,19 @@
           <div id="sample-metadata" class="panel-body"></div>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-9">
+        <div id="map"></div>
+      </div>
+      <div class="col-md-5">
+        <div id="gauge"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
         <div class="well">
+          <h4>Top 50 Beer Lists</h4>
           <h5>Beer Style:</h5>
-          <select id="selDatasetBeer" onchange="optionChanged(this.value)"></select>
+          <select id="selDatasetBeer" onchange="optionChangedBeer(this.value)"></select>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -43,16 +53,8 @@
           <div id="sample-metadata" class="panel-body"></div>
         </div>
       </div>
-      <div class="col-md-5">
-        <div id="bar"></div>
-      </div>
-      <div class="col-md-5">
-        <div id="gauge"></div>
-      </div>
-    </div>
-    <div class="row">
       <div class="col-md-12">
-        <div id="bubble"></div>
+        <div id="abv-chart"></div>
       </div>
     </div>
   </div>
