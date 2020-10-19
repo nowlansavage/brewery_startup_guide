@@ -89,13 +89,16 @@ function optionChangedBeer(selected){
 function makeChart(sample){
 	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
+		console.log(selectedSamples);
 		//bubble map data by id
 		// var currentSample =selectedSamples[0];
 		//bubble map data
 		var traceBeer={
-			x: currentSample.map(x=>x['ABV']),
-			y: currentSample.map(y=>y['SCORE']),
-			text: currentSample.map(x=>x['NAME']),
+			x: selectedSamples.map(x=>x['ABV']),
+			y: selectedSamples.map(y=>y['SCORE']),
+			text: selectedSamples.map(x=>x['NAME']),
+			mode: 'markers',
+			type: 'scatter'
 		};
 		var data =[traceBeer];
 		var layout ={
