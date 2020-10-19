@@ -49,3 +49,60 @@ function dropDownBeer(sampleData){
 		newItem.property('value', name)
 	});
 };
+
+function optionChangedBeer(selected){
+	makeChart(selected);
+	//makeBeerTable(selected);
+};
+
+// function optionChangedMap(selected){
+// 	makeMap(selected);
+// 	makeMapTable(selected);
+// };
+
+// function makeBeerTable(sample){
+// 	d3.json(file_path).then(function(data){
+// 		var samples =data['metadata'];
+// 		var selectedSamples =samples.filter(bug=>bug['id'] ==sample);
+// 		var currentSample =selectedSamples[0];
+// 		console.log(Object.entries(currentSample));
+		
+// 		//appends existing elements
+// 		d3.select('#sample-metadata').selectAll('.panel-body')
+// 			.data(Object.entries(currentSample))
+// 			.text(function(d) {
+// 				console.log(d);
+// 				return `${d[0]}: ${d[1]}`
+// 			});
+// 		//creates new elements
+// 		d3.select('#sample-metadata').selectAll('div')
+// 			.data(Object.entries(currentSample))
+// 			.enter()
+// 			.append('div')
+// 			.classed('panel-body', true)
+// 			.text(function(d) {
+// 				console.log(d);
+// 				return `${d[0]}: ${d[1]}`
+// 			});
+
+//makes bubble map
+function makeChart(sample){
+	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
+		//bubble map data by id
+		// var currentSample =selectedSamples[0];
+		//bubble map data
+		var traceBeer={
+			x: currentSample.map(x=>x['ABV']),
+			y: currentSample.map(y=>y['SCORE']),
+			text: currentSample.map(x=>x['NAME']),
+		};
+		var data =[traceBeer];
+		var layout ={
+			xaxis: { title: "ABV" },
+			yaxis: { title: 'Beer Rating'}
+			
+		};
+		Plotly.newPlot('abv-chart', data, layout);
+	});
+};
