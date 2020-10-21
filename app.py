@@ -29,7 +29,7 @@ def welcome():
     """List all available api routes."""
     return (
         f"Available Routes:<br/>"
-        f"/Beer_Advocate<br/>"
+        # f"/Beer_Advocate<br/>"
         f"/Brewers_Association<br/>"
         f"/City_Pop_Brew_Count<br/>"
         f"/Rate_Beer<br/>"
