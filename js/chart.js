@@ -22,7 +22,7 @@ function optionChangedMap(){
 	  for(var i = 0; i<data.length; i++){
 		// console.log(parseInt(data[i]['2019_pop'].replace(/,/g,"")));
 		if (data[i]['latitude']&& data[i]['State_Abrv']==chosen){
-		  createCircleMarker(data[i]).bindPopup("<h3>" + data[i]['name'] + "</h3>").addTo(Brewcapcity);
+		  createCircleMarker(data[i]).bindPopup("<h3>" + data[i]['cityState'] + "</h3>").addTo(Brewcapcity);
 		}
 	  };
    
@@ -41,7 +41,7 @@ function optionChangedMap(){
 		  for(var i = 0; i<data.length; i++){
 			if (data[i]['latitude'] && data[i]['state']==chosen){
 			  L.marker([data[i]['latitude'],data[i]['longitue']], {icon: symbol})
-			  .bindPopup("<h3>" + data[i]['cityState'] + "</h3>").addTo(Breweries);
+			  .bindPopup("<h3>" + data[i]['name'] + "</h3>").addTo(Breweries);
 			}
 		  };
 		})
@@ -103,12 +103,12 @@ function makeTable(sample){
 		var beerScores = selectedSamples.map(x=>x['SCORE']);
 		var beerABV = selectedSamples.map(x=>x['ABV']);
 		var beerChar = new Object();
-		beerChar['Min Rating'] = Number.parseFloat(Math.min(...beerScores)).toFixed(2);
-		beerChar['Max Rating'] = Number.parseFloat(Math.max(...beerScores)).toFixed(2);
-		beerChar['Average Rating'] = Number.parseFloat(beerScores.reduce((a,b) => a + b, 0) / beerScores.length).toFixed(2);
-		beerChar['Min ABV'] = Number.parseFloat((Math.min(...beerABV))*100).toFixed(2);
-		beerChar['Max ABV'] = Number.parseFloat((Math.max(...beerABV))*100).toFixed(2);
-		beerChar['Average ABV'] = Number.parseFloat((beerABV.reduce((a,b) => a + b, 0) / beerABV.length)*100).toFixed(2);
+		beerChar['Min Rating: '] = Number.parseFloat(Math.min(...beerScores)).toFixed(2);
+		beerChar['Max Rating: '] = Number.parseFloat(Math.max(...beerScores)).toFixed(2);
+		beerChar['Average Rating: '] = Number.parseFloat(beerScores.reduce((a,b) => a + b, 0) / beerScores.length).toFixed(2);
+		beerChar['Min ABV: '] = Number.parseFloat((Math.min(...beerABV))*100).toFixed(2);
+		beerChar['Max ABV: '] = Number.parseFloat((Math.max(...beerABV))*100).toFixed(2);
+		beerChar['Average ABV: '] = Number.parseFloat((beerABV.reduce((a,b) => a + b, 0) / beerABV.length)*100).toFixed(2);
 		//appends existing elements
 		d3.select('#sample-metadata-beer').selectAll('.panel-body')
 			.data(Object.entries(beerChar))
@@ -163,8 +163,8 @@ function makeChart_first(){
 		var data =[traceBeer];
 		var layout ={
 			xaxis: { title: "ABV" },
-			yaxis: { title: 'Beer Rating'}
-			
+			yaxis: { title: 'Beer Rating'},
+			title: {text: 'Beer Rating VS ABV'}
 		};
 		Plotly.newPlot('abv-chart', data, layout);
 	});
@@ -175,12 +175,12 @@ function makeTableFirst(){
 		var beerScores = data.map(x=>x['SCORE']);
 		var beerABV = data.map(x=>x['ABV']);
 		var beerChar = new Object();
-		beerChar['Min Rating'] = Number.parseFloat(Math.min(...beerScores)).toFixed(2);
-		beerChar['Max Rating'] = Number.parseFloat(Math.max(...beerScores)).toFixed(2);
-		beerChar['Average Rating'] = Number.parseFloat(beerScores.reduce((a,b) => a + b, 0) / beerScores.length).toFixed(2);
-		beerChar['Min ABV'] = Number.parseFloat((Math.min(...beerABV))*100).toFixed(2);
-		beerChar['Max ABV'] = Number.parseFloat((Math.max(...beerABV))*100).toFixed(2);
-		beerChar['Average ABV'] = Number.parseFloat((beerABV.reduce((a,b) => a + b, 0) / beerABV.length)*100).toFixed(2);
+		beerChar['Min Rating: '] = Number.parseFloat(Math.min(...beerScores)).toFixed(2);
+		beerChar['Max Rating: '] = Number.parseFloat(Math.max(...beerScores)).toFixed(2);
+		beerChar['Average Rating: '] = Number.parseFloat(beerScores.reduce((a,b) => a + b, 0) / beerScores.length).toFixed(2);
+		beerChar['Min ABV: '] = Number.parseFloat((Math.min(...beerABV))*100).toFixed(2);
+		beerChar['Max ABV: '] = Number.parseFloat((Math.max(...beerABV))*100).toFixed(2);
+		beerChar['Average ABV: '] = Number.parseFloat((beerABV.reduce((a,b) => a + b, 0) / beerABV.length)*100).toFixed(2);
 		//creates new elements
 		d3.select('#sample-metadata-beer').selectAll('div')
 			.data(Object.entries(beerChar))
