@@ -93,19 +93,48 @@ function dropDownBeer(sampleData){
 
 function optionChangedBeer(selected){
 	makeChart(selected);
-	//makeBeerTable(selected);
+	// makeBeerTable(selected);
 };
 
-
+//updates the table with beer stats
+// function makeTable(sample){
+// 	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+// 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
+// 		var beerScores = selectedSamples.map(x=>x['SCORE']);
+// 		var beerABV = selectedSamples.map(x=>x['ABV']);
+// 		var beerChar = new Object();
+// 		beerChar.minScore =selectedSamples
+// 		//appends existing elements
+// 		d3.select('#sample-metadata-beer').selectAll('.panel-body')
+// 			.data(Object.entries(selectedSamples))
+// 			.text(function(d) {
+// 				var beerScores = d.map(x=>x['SCORE']);
+// 				var beerABV = d.map(x=>x['ABV']);
+// 				//return min max and average of score and abv for style
+// 				return `Max Rating: ${Math.max(...beerScores)}<br> Min Rating: ${Math.min(...beerScores)}<br> Average Rating: ${beerScores.reduce((a,b) => a + b, 0) / beerScores.length}<br> Max ABV: ${Math.max(...beerABV)}<br> Min ABV: ${Math.min(...beerABV)}<br> Average ABV: ${beerABV.reduce((a,b) => a + b, 0) / beerABV.length}`
+// 			});
+// 		//creates new elements
+// 		d3.select('#sample-metadata-beer').selectAll('div')
+// 			.data(Object.entries(currentSample))
+// 			.enter()
+// 			.append('div')
+// 			.classed('panel-body', true)
+// 			.text(function(d) {
+// 				var beerScores = d.map(x=>x['SCORE']);
+// 				var beerABV = d.map(x=>x['ABV']);
+// 				return `Max Rating: ${Math.max(...beerScores)}<br> Min Rating: ${Math.min(...beerScores)}<br> Average Rating: ${beerScores.reduce((a,b) => a + b, 0) / beerScores.length}<br> Max ABV: ${Math.max(...beerABV)}<br> Min ABV: ${Math.min(...beerABV)}<br> Average ABV: ${beerABV.reduce((a,b) => a + b, 0) / beerABV.length}`
+// 			});
+			
+		
+		
+// 	});
+// };
 
 //makes  abv cross plot
 function makeChart(sample){
 	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
-		// console.log(selectedSamples);
-		//bubble map data by id
-		// var currentSample =selectedSamples[0];
-		//bubble map data
+		//beer data
 		var traceBeer={
 			x: selectedSamples.map(x=>x['ABV']),
 			y: selectedSamples.map(y=>y['SCORE']),
@@ -145,32 +174,37 @@ function makeChart_first(){
 		Plotly.newPlot('abv-chart', data, layout);
 	});
 };
-// //make initial chart
-makeChart_first();
-
-
-
-//distribution of abv beers
-// function makeChart_distribution(){
+//include all data as default table
+// function makeTableFirst(){
 // 	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
-// 		//chart map data
-// 		var trace1={
-// 			x: new ten = data.map(x=>x['ABV'] >=10),
-// 			y: data.map(y=>y['SCORE']),
-// 			text: data.map(x=>x['NAME']),
-// 			mode: 'markers',
-// 			type: 'scatter'
-// 		};
-// 		var data =[trace1];
-// 		var layout ={
-// 			xaxis: { title: "ABV" },
-// 			yaxis: { title: 'Beer Rating'}
+// 		//appends existing elements
+// 		d3.select('#sample-metadata-beer').selectAll('.panel-body')
+// 			.data(Object.entries(data))
+// 			.text(function(d) {
+// 				var beerScores = d.map(x=>x['SCORE']);
+// 				var beerABV = d.map(x=>x['ABV']);
+
+// 				return `Max Rating: ${Math.max(...beerScores)}<br> Min Rating: ${Math.min(...beerScores)}<br> Average Rating: ${beerScores.reduce((a,b) => a + b, 0) / beerScores.length}<br> Max ABV: ${Math.max(...beerABV)}<br> Min ABV: ${Math.min(...beerABV)}<br> Average ABV: ${beerABV.reduce((a,b) => a + b, 0) / beerABV.length}`
+// 			});
+// 		//creates new elements
+// 		d3.select('#sample-metadata-beer').selectAll('div')
+// 			.data(Object.entries(data))
+// 			.enter()
+// 			.append('div')
+// 			.classed('panel-body', true)
+// 			.text(function(d) {
+// 				var beerScores = d.map(x=>x['SCORE']);
+// 				var beerABV = d.map(x=>x['ABV']);
+// 				return `Max Rating: ${Math.max(...beerScores)}<br> Min Rating: ${Math.min(...beerScores)}<br> Average Rating: ${beerScores.reduce((a,b) => a + b, 0) / beerScores.length}<br> Max ABV: ${Math.max(...beerABV)}<br> Min ABV: ${Math.min(...beerABV)}<br> Average ABV: ${beerABV.reduce((a,b) => a + b, 0) / beerABV.length}`
+// 			});
 			
-// 		};
-// 		Plotly.newPlot('abv-chart-distribute', data, layout);
+		
+		
 // 	});
 // };
-
+// //make initial chart
+makeChart_first();
+// makeTableFirst();
 function makeChart(sample){
 	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
