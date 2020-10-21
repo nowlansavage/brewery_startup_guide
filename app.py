@@ -7,7 +7,7 @@ import pandas as pd
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-engine = create_engine("sqlite:///mergeDashboard3.sqlite")
+engine = create_engine("sqlite:///beer_project.sqlite")
 conn = engine.connect()
 
 Base = automap_base()
