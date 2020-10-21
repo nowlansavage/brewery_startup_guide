@@ -85,17 +85,20 @@ function optionChangedBeer(selected){
 // 				return `${d[0]}: ${d[1]}`
 // 			});
 
-//makes bubble map
+//makes  abv cross plot
 function makeChart(sample){
 	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
+		console.log(selectedSamples);
 		//bubble map data by id
 		// var currentSample =selectedSamples[0];
 		//bubble map data
 		var traceBeer={
-			x: currentSample.map(x=>x['ABV']),
-			y: currentSample.map(y=>y['SCORE']),
-			text: currentSample.map(x=>x['NAME']),
+			x: selectedSamples.map(x=>x['ABV']),
+			y: selectedSamples.map(y=>y['SCORE']),
+			text: selectedSamples.map(x=>x['NAME']),
+			mode: 'markers',
+			type: 'scatter'
 		};
 		var data =[traceBeer];
 		var layout ={
@@ -106,3 +109,48 @@ function makeChart(sample){
 		Plotly.newPlot('abv-chart', data, layout);
 	});
 };
+
+function makeChart_first(){
+	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+		
+		//chart map data
+		var traceBeer={
+			x: data.map(x=>x['ABV']),
+			y: data.map(y=>y['SCORE']),
+			text: data.map(x=>x['NAME']),
+			mode: 'markers',
+			type: 'scatter'
+		};
+		var data =[traceBeer];
+		var layout ={
+			xaxis: { title: "ABV" },
+			yaxis: { title: 'Beer Rating'}
+			
+		};
+		Plotly.newPlot('abv-chart', data, layout);
+	});
+};
+//make initial chart
+makeChart_first();
+
+//distribution of abv beers
+function makeChart_distribution(){
+	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+		//chart map data
+		var trace1={
+			x: new ten = data.map(x=>x['ABV'] >=10),
+			y: data.map(y=>y['SCORE']),
+			text: data.map(x=>x['NAME']),
+			mode: 'markers',
+			type: 'scatter'
+		};
+		var data =[trace1];
+		var layout ={
+			xaxis: { title: "ABV" },
+			yaxis: { title: 'Beer Rating'}
+			
+		};
+		Plotly.newPlot('abv-chart-distribute', data, layout);
+	});
+};
+
