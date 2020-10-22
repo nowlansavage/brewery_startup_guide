@@ -14,7 +14,7 @@ d3.selectAll("#selDatasetMap").on("change", optionChangedMap);
 function optionChangedMap(){
 	Brewcapcity.clearLayers();
 	Breweries.clearLayers();
-	d3.json("http://localhost:5000/City_Pop_Brew_Count").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/City_Pop_Brew_Count").then(function(data){
 
 	  var dropdownMenu = d3.select("#selDatasetMap");
 	  // Assign the value of the dropdown menu option to a variable
@@ -26,7 +26,7 @@ function optionChangedMap(){
 		}
 	  };
    
-	d3.json("http://localhost:5000/Brewers_Association").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/Brewers_Association").then(function(data){
 		dropDownMap(data);
 		
 		  var dropdownMenu = d3.select("#selDatasetMap");
@@ -51,7 +51,7 @@ function optionChangedMap(){
   };
   
 
-d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+d3.json("https://brewery-guide.herokuapp.com/Rate_Beer").then(function(data){
     // console.log(data);
     dropDownBeer(data);
 });
@@ -98,7 +98,7 @@ function optionChangedBeer(selected){
 
 //updates the table with beer stats
 function makeTable(sample){
-	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/Rate_Beer").then(function(data){
 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
 		var beerScores = selectedSamples.map(x=>x['SCORE']);
 		var beerABV = selectedSamples.map(x=>x['ABV']);
@@ -125,7 +125,7 @@ function makeTable(sample){
 
 //makes  abv cross plot
 function makeChart(sample){
-	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/Rate_Beer").then(function(data){
 		var selectedSamples =data.filter(beer=>beer['Style'] ==sample);
 		var beerx = selectedSamples.map(x=>(x['ABV']*100));
 		//beer data
@@ -149,7 +149,7 @@ function makeChart(sample){
 
 // Makes abv crossplot of all data
 function makeChart_first(){
-	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/Rate_Beer").then(function(data){
 		
 		//chart map data
 		var traceBeer={
@@ -171,7 +171,7 @@ function makeChart_first(){
 };
 //include all data as default table
 function makeTableFirst(){
-	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/Rate_Beer").then(function(data){
 		var beerScores = data.map(x=>x['SCORE']);
 		var beerABV = data.map(x=>x['ABV']);
 		var beerChar = new Object();
@@ -283,7 +283,7 @@ function getColor(d) {
 
   //distribution of abv beers
 function makeChart_distribution(){
-	d3.json("http://localhost:5000/Rate_Beer").then(function(data){
+	d3.json("https://brewery-guide.herokuapp.com/Rate_Beer").then(function(data){
 		var filter10=data.filter(x=>(x['ABV']*100)>=10).sort((a,b)=> (a.ABV > b.ABV) ? 1 : -1).sort((a,b)=> (a.SCORE > b.SCORE) ? 1 : -1);
 		var x10 = filter10.map(x=>x['SCORE']);
 		var y10 = x10.map((x,index)=>(index+1)/x10.length);
