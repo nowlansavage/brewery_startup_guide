@@ -18,7 +18,9 @@ Base.classes.keys()
 # beer_advocate = Base.classes.Beer_Advocate
 brewers_association = Base.classes.Brewers_Association
 city_pop_brew_count = Base.classes.City_Pop_Brew_Count
-rate_beer = Base.classes.Rate_Beer
+model_train = Base.classes.model_train
+model_test = Base.classes.model_test
+words = Base.classes.words
 
 app = Flask(__name__)
 CORS(app)
@@ -33,6 +35,9 @@ def welcome():
         f"/Brewers_Association<br/>"
         f"/City_Pop_Brew_Count<br/>"
         f"/Rate_Beer<br/>"
+        f"/Model_Train<br/>"
+        f"/Model_Test<br/>"
+        f"/Words"
     )
 
 # @app.route("/Beer_Advocate")
@@ -111,6 +116,72 @@ def Rate_Beer():
     session = Session(engine)
 
     results = session.query(rate_beer).all()
+
+    returned=[result.__dict__ for result in results]
+    new_list=[]
+    for each_dict in returned: 
+        new_dict={}
+        for each_key in each_dict:
+            if not each_key=='_sa_instance_state': 
+                new_dict[each_key]=each_dict[each_key]
+        new_list.append(new_dict)
+
+    session.close()
+
+
+    return jsonify(new_list)
+
+@app.route("/Model_Train")
+def Model_Train():
+
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    results = session.query(model_train).all()
+
+    returned=[result.__dict__ for result in results]
+    new_list=[]
+    for each_dict in returned: 
+        new_dict={}
+        for each_key in each_dict:
+            if not each_key=='_sa_instance_state': 
+                new_dict[each_key]=each_dict[each_key]
+        new_list.append(new_dict)
+
+    session.close()
+
+
+    return jsonify(new_list)
+
+@app.route("/Model_Test")
+def Model_Test():
+
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    results = session.query(model_test).all()
+
+    returned=[result.__dict__ for result in results]
+    new_list=[]
+    for each_dict in returned: 
+        new_dict={}
+        for each_key in each_dict:
+            if not each_key=='_sa_instance_state': 
+                new_dict[each_key]=each_dict[each_key]
+        new_list.append(new_dict)
+
+    session.close()
+
+
+    return jsonify(new_list)
+
+@app.route("/Model_Words")
+def Model_Words():
+
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    results = session.query(words).all()
 
     returned=[result.__dict__ for result in results]
     new_list=[]
