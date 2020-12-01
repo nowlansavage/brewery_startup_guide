@@ -405,8 +405,6 @@ function makeMLChart(){
 		//training data
 		var train_x = train[0].map((x)=>x['actual']);
 		var train_y = train[0].map((x)=>x['predicted']);
-		console.log(train[0]);
-		// console.log(train[1]);
 		
 		// testing data
 		var test_x = train[1].map(x=>x['actual']);
@@ -437,13 +435,17 @@ function makeMLChart(){
 makeMLChart();
 
 function makeKeywordTable(){
-	d3.select("tbody")
-	  .selectAll("tr")
-	  .data(austinWeather)
-	  .enter()
-	  .append("tr")
-	  .html(function(d) {
-	    return `<td>${d.date}</td><td>${d.low}</td><td>${d.high}</td>`;
-	  });
+	d3.json("https://brewery-guide.herokuapp.com/Model_Words").then(function(data){
+		var filterData= data.filter(x=>x['index'] <= 20);
+		d3.select("tbody")
+		  .selectAll("tr")
+		  .data(filterData)
+		  .enter()
+		  .append("tr")
+		  .html(function(d) {
+		    return `<td>${d.word}</td><td>${d.importance}</td>`;
+		  });
+	});
 };
-makeMLChart();
+
+makeKeywordTable();
