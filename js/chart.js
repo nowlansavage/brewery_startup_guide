@@ -63,7 +63,7 @@ Array.prototype.unique = function() {
   });
 };
 
-//create states drop down menu
+//create states drop down menu 
 function dropDownMap(sampleData){
 	//change arrat of dict to be an array of states
 	var states = sampleData.map(x=>x['state']);
@@ -396,35 +396,54 @@ function makeChart_distribution(){
 makeChart_distribution();
 
 // make chart with machine learning data
-import {json} from 'd3-fetch'
-Promise.all([
-	json("https://brewery-guide.herokuapp.com/Model_Train"),
-	json("https://brewery-guide.herokuapp.com/Model_Test")
-])
-.then(function(train, test){
-	var train_x = train.map(x=>x['actual']);
-	var train_y = train.map(x=>x['predicted']);
-	var test_x = test.map(x=>x['actual']);
-	var test_y = test.map(x=>x['predicted']);
-	var TrainData={
-		x: train_x,
-		y: train_y,
-		mode: 'markers',
-		type: 'scatter',
-		name: 'Train Data'
-	};
-	var TestData={
-		x: test_x,
-		y: test_y,
-		mode: 'markers',
-		type: 'scatter',
-		name: 'Test Data'
-	};
-	var dataML =[TrainData, TestData];
-	var layoutML ={
-		title: { text: "Machine Learning: IPA Reviews"},
-		xaxis: { title: "Actual Rating" },
-		yaxis: { title: 'Predicted Rating'}
-	};
-	Plotly.newPlot('machine-learning-chart', dataML, layoutML);
-});
+function makeMLChart(){
+	Promise.all([
+		d3.json("https://brewery-guide.herokuapp.com/Model_Train"),
+		d3.json("https://brewery-guide.herokuapp.com/Model_Test")
+	])
+	.then(function(train){
+		//training data
+		var train_x = train[0].map((x)=>x['actual']);
+		var train_y = train[0].map((x)=>x['predicted']);
+		console.log(train[0]);
+		// console.log(train[1]);
+		
+		// testing data
+		var test_x = train[1].map(x=>x['actual']);
+		var test_y = train[1].map(x=>x['predicted']);
+		var TrainData={
+			x: train_x,
+			y: train_y,
+			mode: 'markers',
+			type: 'scatter',
+			name: 'Train Data'
+		};
+		var TestData={
+			x: test_x,
+			y: test_y,
+			mode: 'markers',
+			type: 'scatter',
+			name: 'Test Data'
+		};
+		var dataML =[TrainData, TestData];
+		var layoutML ={
+			title: { text: "Machine Learning: IPA Reviews"},
+			xaxis: { title: "Actual Rating" },
+			yaxis: { title: 'Predicted Rating'}
+		};
+		Plotly.newPlot('machine-learning-chart', dataML, layoutML);
+	});
+};
+makeMLChart();
+
+function makeKeywordTable(){
+	d3.select("tbody")
+	  .selectAll("tr")
+	  .data(austinWeather)
+	  .enter()
+	  .append("tr")
+	  .html(function(d) {
+	    return `<td>${d.date}</td><td>${d.low}</td><td>${d.high}</td>`;
+	  });
+};
+makeMLChart();
