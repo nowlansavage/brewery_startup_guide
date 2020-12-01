@@ -394,3 +394,37 @@ function makeChart_distribution(){
 	});
 };
 makeChart_distribution();
+
+// make chart with machine learning data
+import {json} from 'd3-fetch'
+Promise.all([
+	json("https://brewery-guide.herokuapp.com/Model_Train"),
+	json("https://brewery-guide.herokuapp.com/Model_Test")
+])
+.then(function(train, test){
+	var train_x = train.map(x=>x['actual']);
+	var train_y = train.map(x=>x['predicted']);
+	var test_x = test.map(x=>x['actual']);
+	var test_y = test.map(x=>x['predicted']);
+	var TrainData={
+		x: train_x,
+		y: train_y,
+		mode: 'markers',
+		type: 'scatter',
+		name: 'Train Data'
+	};
+	var TestData={
+		x: test_x,
+		y: test_y,
+		mode: 'markers',
+		type: 'scatter',
+		name: 'Test Data'
+	};
+	var dataML =[TrainData, TestData];
+	var layoutML ={
+		title: { text: "Machine Learning: IPA Reviews"},
+		xaxis: { title: "Actual Rating" },
+		yaxis: { title: 'Predicted Rating'}
+	};
+	Plotly.newPlot('machine-learning-chart', dataML, layoutML);
+});
