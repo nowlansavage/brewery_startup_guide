@@ -63,7 +63,7 @@ Array.prototype.unique = function() {
   });
 };
 
-//create states drop down menu
+//create states drop down menu 
 function dropDownMap(sampleData){
 	//change arrat of dict to be an array of states
 	var states = sampleData.map(x=>x['state']);
@@ -394,3 +394,58 @@ function makeChart_distribution(){
 	});
 };
 makeChart_distribution();
+
+// make chart with machine learning data
+function makeMLChart(){
+	Promise.all([
+		d3.json("https://brewery-guide.herokuapp.com/Model_Train"),
+		d3.json("https://brewery-guide.herokuapp.com/Model_Test")
+	])
+	.then(function(train){
+		//training data
+		var train_x = train[0].map((x)=>x['actual']);
+		var train_y = train[0].map((x)=>x['predicted']);
+		
+		// testing data
+		var test_x = train[1].map(x=>x['actual']);
+		var test_y = train[1].map(x=>x['predicted']);
+		var TrainData={
+			x: train_x,
+			y: train_y,
+			mode: 'markers',
+			type: 'scatter',
+			name: 'Train Data'
+		};
+		var TestData={
+			x: test_x,
+			y: test_y,
+			mode: 'markers',
+			type: 'scatter',
+			name: 'Test Data'
+		};
+		var dataML =[TrainData, TestData];
+		var layoutML ={
+			title: { text: "Machine Learning: IPA Reviews"},
+			xaxis: { title: "Actual Rating" },
+			yaxis: { title: 'Predicted Rating'}
+		};
+		Plotly.newPlot('machine-learning-chart', dataML, layoutML);
+	});
+};
+makeMLChart();
+
+function makeKeywordTable(){
+	d3.json("https://brewery-guide.herokuapp.com/Model_Words").then(function(data){
+		var filterData= data.filter(x=>x['index'] <= 20);
+		d3.select("tbody")
+		  .selectAll("tr")
+		  .data(filterData)
+		  .enter()
+		  .append("tr")
+		  .html(function(d) {
+		    return `<td>${d.word}</td><td>${d.importance}</td>`;
+		  });
+	});
+};
+
+makeKeywordTable();

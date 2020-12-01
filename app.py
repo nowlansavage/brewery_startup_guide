@@ -38,7 +38,7 @@ def welcome():
         f"/Rate_Beer<br/>"
         f"/Model_Train<br/>"
         f"/Model_Test<br/>"
-        f"/Words"
+        f"Model_Words"
     )
 
 # @app.route("/Beer_Advocate")
