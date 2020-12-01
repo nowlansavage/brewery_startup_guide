@@ -18,6 +18,7 @@ Base.classes.keys()
 # beer_advocate = Base.classes.Beer_Advocate
 brewers_association = Base.classes.Brewers_Association
 city_pop_brew_count = Base.classes.City_Pop_Brew_Count
+rate_beer = Base.classes.Rate_Beer
 model_train = Base.classes.model_train
 model_test = Base.classes.model_test
 words = Base.classes.words
